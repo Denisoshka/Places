@@ -1,0 +1,23 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f9;
+    padding: 50px;
+}
+
+input, button {
+    padding: 10px;
+    margin: 10px;
+    font-size: 18px;
+}
+
+.results {
+    margin-top: 20px;
+}
+
+.location {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #fff;
+}
