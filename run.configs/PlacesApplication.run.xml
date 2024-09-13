@@ -1,0 +1,24 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="PlacesApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <envs>
+      <env name="GRAPHHOPPER.API.KEY" value="4e698df4-7e1e-4d3e-9cad-a885939a2f24" />
+      <env name="GRAPHHOPPER.API.PLACES.LIMIT" value="2" />
+      <env name="OPENWEATHER.API.KEY" value="435210f9324c3254c6c3dfe6961dacb8" />
+      <env name="YANDEX.MAPS.API.KEY" value="0a78b601-79bb-4ae4-98d2-fb027dbb30a2" />
+      <env name="OPENTRIPMAP.API.KEY" value="5ae2e3f221c38a28845f05b6dd28a4d3f7f963859c2b2237b68c7e40" />
+    </envs>
+    <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+    <module name="places.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="ru.nsu.ccfit.networks.places.PlacesApplication" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.example.places.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+      <option name="TypeScript.Before.Run" enabled="true" FAIL_ON_ERROR="true" CONFIG_PATH="$PROJECT_DIR$/src/main/resources/static/ts/tsconfig.json" />
+    </method>
+  </configuration>
+</component>

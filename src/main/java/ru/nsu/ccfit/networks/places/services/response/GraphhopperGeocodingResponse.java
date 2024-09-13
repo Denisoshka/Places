@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GraphhopperGeocodingEndpoint {
+public class GraphhopperGeocodingResponse {
   
   private List<hittedLocation> hits;
 //  private Long took;

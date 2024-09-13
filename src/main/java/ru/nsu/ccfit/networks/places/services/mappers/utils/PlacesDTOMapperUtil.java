@@ -1,14 +1,18 @@
-package ru.nsu.ccfit.networks.places.services.response.utils;
+package ru.nsu.ccfit.networks.places.services.mappers.utils;
 
 import org.mapstruct.Named;
+import ru.nsu.ccfit.networks.places.services.response.GraphhopperGeocodingResponse;
 
 @Named("PlacesDTOMapperUtil")
 public class PlacesDTOMapperUtil {
   @Named("buildAddress")
-  public static String getAddress(final String country,
-                                  final String city, final String state,
-                                  final String street, final String housenumber,
-                                  final String postcode) {
+  public static String buildAddress(GraphhopperGeocodingResponse.hittedLocation source) {
+    final String country = source.getCountry();
+    final String city = source.getCity();
+    final String state = source.getState();
+    final String street = source.getStreet();
+    final String housenumber = source.getHousenumber();
+    final String postcode = source.getPostcode();
     var addressBuilder = new StringBuilder();
     if (country != null) {
       addressBuilder.append(country).append(", ");

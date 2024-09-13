@@ -1,33 +1,32 @@
 // Импортируем базовый URL из конфигурации
-import {API_URL} from './config';
+import {API_URL} from './config.js';
 
-async function searchLocation(): Promise<void> {
-    const inputElement = document.getElementById('locationInput') as HTMLInputElement;
-    const locationName = inputElement.value;
-
-    if (!locationName) {
-        alert('Введите название локации!');
+export async function searchLocation(location: string): Promise<void> {
+    if (!location) {
+        alert('Enter location name');
         return;
     }
-
-    const apiUrl = `${API_URL}?search=${encodeURIComponent(locationName)}`;
-
+    const apiUrl = `${API_URL}/places/searchByPlace?place=${location}`;
     try {
         const response = await fetch(apiUrl);
+        if (!response.ok) {
+            console.error(`Error while fetch data: ${response.status}`)
+            return;
+        }
+
         const data: Location[] = await response.json();
         displayResults(data);
     } catch (error) {
-        console.error('Ошибка при запросе:', error);
-        alert('Ошибка при запросе данных');
+        console.error('Error while fetch data:', error);
     }
 }
 
 function displayResults(locations: Location[]): void {
     const resultsElement = document.getElementById('results') as HTMLElement;
-    resultsElement.innerHTML = ''; // Очистка предыдущих результатов
+    resultsElement.innerHTML = '';
 
     if (locations.length === 0) {
-        resultsElement.innerHTML = '<p>Ничего не найдено.</p>';
+        resultsElement.innerHTML = '<p>No results found.</p>';
         return;
     }
 

@@ -1,4 +1,4 @@
-package ru.nsu.ccfit.networks.places.controllers.apiv1;
+package ru.nsu.ccfit.networks.places.controllers.api.v1;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
