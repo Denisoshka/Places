@@ -36,3 +36,4 @@ out/
 ### VS Code ###
 .vscode/
 /.run.configs/
+/src/main/resources/static/ts/out/

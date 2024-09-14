@@ -9,11 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LocationInfoDTO {
+public class PlaceInfoDTO {
   private String name;
   private String[] kinds;
-  private String wikidata;
-  private int dist;
-  private double lat;
-  private double lon;
+  private String wikipedia;
+  private String image;
+  private String descr;
 }

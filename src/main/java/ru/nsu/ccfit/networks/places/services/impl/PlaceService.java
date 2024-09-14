@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.nsu.ccfit.networks.places.places.LocationDTO;
-import ru.nsu.ccfit.networks.places.places.LocationInfoDTO;
+import ru.nsu.ccfit.networks.places.places.NearByPlaceInfoDTO;
+import ru.nsu.ccfit.networks.places.places.PlaceDTO;
+import ru.nsu.ccfit.networks.places.places.PlaceInfoDTO;
 import ru.nsu.ccfit.networks.places.services.AbstractPlaceService;
-import ru.nsu.ccfit.networks.places.services.mappers.LocationInfoDTOMapper;
 import ru.nsu.ccfit.networks.places.services.mappers.PlacesDTOMapper;
 import ru.nsu.ccfit.networks.places.services.response.GraphhopperGeocodingResponse;
 import ru.nsu.ccfit.networks.places.services.response.OpenTripMapResponse;
@@ -25,10 +25,9 @@ public class PlaceService implements AbstractPlaceService {
   private static final Logger LOG = LoggerFactory.getLogger(PlaceService.class);
   private final WebClient graphhopperWebClient;
   private final WebClient openTripMapWebClient;
-  private final PlacesDTOMapper mapper;
+  private final PlacesDTOMapper placesDTOMapper;
   private final String graphhopperApiKey;
   private final String opentripmapApiKey;
-  private final LocationInfoDTOMapper locationInfoDTOMapper;
   @Value("${graphhopper.api.places.limit}")
   private int placesLimit;
 //  @Value("${graphhopper.api.key}")
@@ -38,25 +37,20 @@ public class PlaceService implements AbstractPlaceService {
       WebClient graphhopperWebClient,
       WebClient openTripMapWebClient,
       PlacesDTOMapper placesDTOMapper,
-      LocationInfoDTOMapper locationInfoDTOMapper,
       @Value("${graphhopper.api.key}") String graphhopperApiKey,
       @Value("${opentripmap.api.key}") String opentripmapApiKey
   ) {
-    this.mapper = placesDTOMapper;
+    this.placesDTOMapper = placesDTOMapper;
     this.graphhopperApiKey = graphhopperApiKey;
     this.opentripmapApiKey = opentripmapApiKey;
     this.graphhopperWebClient = graphhopperWebClient;
     this.openTripMapWebClient = openTripMapWebClient;
-    this.locationInfoDTOMapper = locationInfoDTOMapper;
   }
   
-  /**
-   * @param q place name
-   * @return {@code Mono<List<LocationDTO>>} places by name match
-   */
+  
   @Cacheable("ListPlacesByName")
   @Override
-  public Mono<List<LocationDTO>> ListPlacesByName(final String q) {
+  public Mono<List<PlaceDTO>> getPlacesByName(final String q) {
     return graphhopperWebClient.get()
         .uri(uriBuilder -> uriBuilder
             .queryParam("key", graphhopperApiKey)
@@ -69,23 +63,19 @@ public class PlaceService implements AbstractPlaceService {
             ClientResponse::createException
         )
         .bodyToMono(GraphhopperGeocodingResponse.class)
-        .map(response -> mapper.toListPlacesDTOMapper(response.getHits())).log();
+        .map(response -> placesDTOMapper.toListPlaceDTO(response.getHits())).log();
   }
   
-  /**
-   * @param lat latitude
-   * @param lon longitude
-   * @param radius in meters
-   * @return {@code Mono<List<LocationInfoDTO>>} places nearby location
-   */
+  
   @Override
-  public Mono<List<LocationInfoDTO>> ListPlacesByCords(
+  public Mono<List<NearByPlaceInfoDTO>> getPlacesByCords(
       final double lat,
       final double lon,
       final int radius
   ) {
     return openTripMapWebClient.get().uri(
             uriBuilder -> uriBuilder
+                .path("en/places/radius")
                 .queryParam("apikey", opentripmapApiKey)
                 .queryParam("lang", "en")
                 .queryParam("radius", radius)
@@ -93,11 +83,21 @@ public class PlaceService implements AbstractPlaceService {
                 .queryParam("lat", lat)
                 .build()
         ).retrieve()
-        .onStatus(
-            HttpStatusCode::isError,
-            ClientResponse::createException
-        ).bodyToMono(OpenTripMapResponse[].class)
-        .map(locationInfoDTOMapper::toLocationInfoDTOList);
+        .onStatus(HttpStatusCode::isError, ClientResponse::createException)
+        .bodyToMono(OpenTripMapResponse.Radius[].class)
+        .map(placesDTOMapper::toNearByPlaceInfoDTO);
   }
   
+  @Override
+  public Mono<PlaceInfoDTO> getPlaceInfo(final String xid) {
+    return openTripMapWebClient.get().uri(
+            uriBuilder -> uriBuilder.path("en/places/xid/" + xid).build()
+        ).retrieve()
+        .onStatus(HttpStatusCode::isError, ClientResponse::createException)
+        .bodyToMono(OpenTripMapResponse.PlaceInfo.class)
+        .map(placesDTOMapper::toPlaceInfoDTO);
+  }
+    /*
+    /{lang}/places/xid/{xid}
+    * */
 }
