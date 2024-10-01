@@ -21,3 +21,8 @@ input, button {
     margin: 10px 0;
     background-color: #fff;
 }
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}

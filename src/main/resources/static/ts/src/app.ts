@@ -46,7 +46,7 @@ function displayResults(locations: Location[]): void {
   });
 }
 
-async function fethcPlaceInfo() {
+async function fetchPlaceInfo(place: string) {
 
 }
 

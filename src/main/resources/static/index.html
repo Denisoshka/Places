@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Поиск Локации</title>
-    <link rel="stylesheet" href="styles/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Поиск Локации</title>
+  <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-<h1>Поиск Локации</h1>
-<label for="locationInput"></label>
+<div class="container">
+  <div class="box">
+    <h1>Поиск Локации</h1>
+    <label for="locationInput"></label>
+    <input type="text" id="locationInput" placeholder="Enter location"/>
+    <button id="search">Search</button>
+    <script type="module" src="ts/out/main.js"></script>
+    <div class="results" id="results"></div>
+  </div>
+  <div class="box">
+    <div id="map"></div>
+  </div>
+</div>
 
-<input type="text" id="locationInput" placeholder="Enter location"/>
-<button id="search">Search</button>
-<script type="module" src="ts/out/main.js"></script>
-
-<div class="results" id="results"></div>
 </body>
 </html>
 
