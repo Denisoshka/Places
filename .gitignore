@@ -37,3 +37,4 @@ out/
 .vscode/
 /.run.configs/
 /src/main/resources/static/ts/out/
+/src/main/resources/static/ts/node_modules/

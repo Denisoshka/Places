@@ -3,10 +3,10 @@ package ru.nsu.ccfit.networks.places.services.mappers.utils;
 import org.mapstruct.Named;
 import ru.nsu.ccfit.networks.places.services.response.GraphhopperGeocodingResponse;
 
-@Named("PlacesDTOMapperUtil")
-public class PlacesDTOMapperUtil {
+@Named("MappersUtil")
+public class MappersUtil {
   @Named("buildAddress")
-  public static String buildAddress(GraphhopperGeocodingResponse.hittedLocation source) {
+  public static String buildAddress(GraphhopperGeocodingResponse.HittedLocation source) {
     final String country = source.getCountry();
     final String city = source.getCity();
     final String state = source.getState();

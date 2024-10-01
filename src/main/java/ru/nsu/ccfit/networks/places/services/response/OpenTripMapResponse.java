@@ -14,7 +14,7 @@ public final class OpenTripMapResponse {
   public static final class Radius {
     private String name;
     private String xid;
-    private String[] kinds;
+    private String[] kind;
     private String wikidata;
     private int dist;
     private Point point;
@@ -34,8 +34,8 @@ public final class OpenTripMapResponse {
   @NoArgsConstructor
   @AllArgsConstructor
   public static final class PlaceInfo {
-        private String kinds;
-//    private Sources sources;
+    private String[] kinds;
+    //    private Sources sources;
 //    private Bbox bbox;
 //    private Point point;
 //    private String osm;

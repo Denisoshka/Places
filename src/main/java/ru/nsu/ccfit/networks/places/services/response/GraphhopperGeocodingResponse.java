@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GraphhopperGeocodingResponse {
-  private List<hittedLocation> hits;
+  private List<HittedLocation> hits;
 //  private Long took;
   
   
@@ -20,7 +20,7 @@ public class GraphhopperGeocodingResponse {
   @Setter
   @NoArgsConstructor
   @AllArgsConstructor
-  public static class hittedLocation {
+  public static class HittedLocation {
     
     private Point point;
     //    private String osmId;

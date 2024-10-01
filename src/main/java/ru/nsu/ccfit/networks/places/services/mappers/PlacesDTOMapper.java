@@ -6,8 +6,7 @@ import org.mapstruct.MappingConstants;
 import ru.nsu.ccfit.networks.places.places.NearByPlaceInfoDTO;
 import ru.nsu.ccfit.networks.places.places.PlaceDTO;
 import ru.nsu.ccfit.networks.places.places.PlaceInfoDTO;
-import ru.nsu.ccfit.networks.places.services.mappers.utils.LocationInfoDTOMapperUtil;
-import ru.nsu.ccfit.networks.places.services.mappers.utils.PlacesDTOMapperUtil;
+import ru.nsu.ccfit.networks.places.services.mappers.utils.MappersUtil;
 import ru.nsu.ccfit.networks.places.services.response.GraphhopperGeocodingResponse;
 import ru.nsu.ccfit.networks.places.services.response.OpenTripMapResponse;
 
@@ -16,8 +15,7 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
     uses = {
-        PlacesDTOMapperUtil.class,
-        LocationInfoDTOMapperUtil.class
+        MappersUtil.class,
     }
 )
 public interface PlacesDTOMapper {
@@ -26,38 +24,33 @@ public interface PlacesDTOMapper {
   @Mapping(
       target = "address",
       qualifiedByName = {
-          "PlacesDTOMapperUtil",
+          "MappersUtil",
           "buildAddress"
       },
       source = "."
   )
-  PlaceDTO toPlaceDTO(GraphhopperGeocodingResponse.hittedLocation graphhopperGeocodingEndpoint);
+  PlaceDTO toPlaceDTO(
+      final GraphhopperGeocodingResponse.HittedLocation graphhopperGeocodingEndpoint
+  );
   
-  List<PlaceDTO> toListPlaceDTO(List<GraphhopperGeocodingResponse.hittedLocation> hitLocations);
+  List<PlaceDTO> toListPlaceDTO(
+      final List<GraphhopperGeocodingResponse.HittedLocation> hitLocations
+  );
   
   @Mapping(target = "lat", source = "point.lat")
   @Mapping(target = "lon", source = "point.lon")
   @Mapping(
       target = "kinds",
-      qualifiedByName = {
-          "LocationInfoDTOMapperUtil",
-          "getKinds"
-      },
       source = "kind"
   )
-  NearByPlaceInfoDTO toNearByPlaceInfoDTO(final OpenTripMapResponse.Radius response);
+  NearByPlaceInfoDTO toNearByPlaceInfoDTO(
+      final OpenTripMapResponse.Radius response
+  );
   
   List<NearByPlaceInfoDTO> toNearByPlaceInfoDTO(
       final OpenTripMapResponse.Radius[] response
   );
   
-  @Mapping(
-      target = "kinds",
-      qualifiedByName = {
-          "LocationInfoDTOMapperUtil",
-          "getKinds"
-      },
-      source = "kinds"
-  )
+  @Mapping(target = "descr", source = "info.descr")
   PlaceInfoDTO toPlaceInfoDTO(final OpenTripMapResponse.PlaceInfo placeInfo);
 }
