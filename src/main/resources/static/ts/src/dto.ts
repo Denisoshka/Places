@@ -14,3 +14,11 @@ interface NearByPlaceInfoDTO {
   lat: number;
   lon: number;
 }
+
+interface PlaceInfoDTO {
+  name: string;
+  kinds: string[];
+  wikipedia: string;
+  image: string;
+  desc: string;
+}

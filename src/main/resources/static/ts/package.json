@@ -1,20 +1,22 @@
 {
-  "name": "ts",
+  "name": "xyi",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "devDependencies": {
     "@yandex/ymaps3-types": "^0.0.17",
-    "http-server": "14.1.1",
-    "typescript": "5.2.2"
-  },
-  "scripts": {
-    "compile": "./node_modules/.bin/tsc",
-    "start": "npx http-server ."
+    "typescript": "5.2.2",
+    "dotenv": "^16.4.5"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Denisoshka/places.git"
+    "url": "git+https://github.com/Denisoshka/places.git"
   },
-  "private": true
+  "private": true,
+  "author": "denis zhdanov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Denisoshka/places/issues"
+  },
+  "homepage": "https://github.com/Denisoshka/places#readme",
+  "description": ""
 }
