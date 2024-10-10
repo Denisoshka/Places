@@ -1,8 +1,8 @@
 package ru.nsu.ccfit.networks.places.services;
 
 import reactor.core.publisher.Mono;
-import ru.nsu.ccfit.networks.places.places.NearByPlaceInfoDTO;
-import ru.nsu.ccfit.networks.places.places.PlaceDTO;
+import ru.nsu.ccfit.networks.places.places.LocationInfoDTO;
+import ru.nsu.ccfit.networks.places.places.LocationDTO;
 import ru.nsu.ccfit.networks.places.places.PlaceInfoDTO;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public interface AbstractPlaceService {
    * @param q place name
    * @return {@code Mono<List<LocationDTO>>} places by name match
    */
-  Mono<List<PlaceDTO>> getPlacesByName(final String q);
+  Mono<List<LocationDTO>> getPlacesByName(final String q);
   
   /**
    * @param lat    latitude
@@ -20,7 +20,7 @@ public interface AbstractPlaceService {
    * @param radius in meters
    * @return {@code Mono<List<LocationInfoDTO>>} places nearby location
    */
-  Mono<List<NearByPlaceInfoDTO>> getPlacesByCords(
+  Mono<List<LocationInfoDTO>> getPlacesInRadius(
       final double lat,
       final double lon,
       final int radius

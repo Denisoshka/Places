@@ -10,47 +10,43 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.nsu.ccfit.networks.places.places.NearByPlaceInfoDTO;
-import ru.nsu.ccfit.networks.places.places.PlaceDTO;
+import ru.nsu.ccfit.networks.places.places.LocationDTO;
+import ru.nsu.ccfit.networks.places.places.LocationInfoDTO;
 import ru.nsu.ccfit.networks.places.places.PlaceInfoDTO;
 import ru.nsu.ccfit.networks.places.services.AbstractPlaceService;
 import ru.nsu.ccfit.networks.places.services.mappers.PlacesDTOMapper;
 import ru.nsu.ccfit.networks.places.services.response.GraphhopperGeocodingResponse;
-import ru.nsu.ccfit.networks.places.services.response.OpenTripMapResponse;
+import ru.nsu.ccfit.networks.places.services.response.KudaGoResponse;
 
 import java.util.List;
 
 @Component
 public class PlaceService implements AbstractPlaceService {
   private static final Logger LOG = LoggerFactory.getLogger(PlaceService.class);
+  private final WebClient kudaGoWebClient;
   private final WebClient graphhopperWebClient;
-  private final WebClient openTripMapWebClient;
   private final PlacesDTOMapper placesDTOMapper;
   private final String graphhopperApiKey;
-  private final String opentripmapApiKey;
   @Value("${graphhopper.api.places.limit}")
   private int placesLimit;
-//  @Value("${graphhopper.api.key}")
-  
+
   @Autowired
   public PlaceService(
+      WebClient kudaGoWebClient,
       WebClient graphhopperWebClient,
-      WebClient openTripMapWebClient,
       PlacesDTOMapper placesDTOMapper,
-      @Value("${graphhopper.api.key}") String graphhopperApiKey,
-      @Value("${opentripmap.api.key}") String opentripmapApiKey
+      @Value("${graphhopper.api.key}") String graphhopperApiKey
   ) {
+    this.kudaGoWebClient = kudaGoWebClient;
+    this.graphhopperWebClient = graphhopperWebClient;
     this.placesDTOMapper = placesDTOMapper;
     this.graphhopperApiKey = graphhopperApiKey;
-    this.opentripmapApiKey = opentripmapApiKey;
-    this.graphhopperWebClient = graphhopperWebClient;
-    this.openTripMapWebClient = openTripMapWebClient;
   }
-  
-  
+
+
   @Cacheable("ListPlacesByName")
   @Override
-  public Mono<List<PlaceDTO>> getPlacesByName(final String q) {
+  public Mono<List<LocationDTO>> getPlacesByName(final String q) {
     return graphhopperWebClient.get()
         .uri(uriBuilder -> uriBuilder
             .queryParam("key", graphhopperApiKey)
@@ -65,39 +61,34 @@ public class PlaceService implements AbstractPlaceService {
         .bodyToMono(GraphhopperGeocodingResponse.class)
         .map(response -> placesDTOMapper.toListPlaceDTO(response.getHits())).log();
   }
-  
-  
+
+
   @Override
-  public Mono<List<NearByPlaceInfoDTO>> getPlacesByCords(
+  public Mono<List<LocationInfoDTO>> getPlacesInRadius(
       final double lat,
       final double lon,
       final int radius
   ) {
-    return openTripMapWebClient.get().uri(
+    return kudaGoWebClient.get().uri(
             uriBuilder -> uriBuilder
-                .path("en/places/radius")
-                .queryParam("apikey", opentripmapApiKey)
-                .queryParam("lang", "en")
+                .path("places/")
                 .queryParam("radius", radius)
                 .queryParam("lon", lon)
                 .queryParam("lat", lat)
                 .build()
         ).retrieve()
         .onStatus(HttpStatusCode::isError, ClientResponse::createException)
-        .bodyToMono(OpenTripMapResponse.Radius[].class)
+        .bodyToMono(KudaGoResponse.Radius.Place[].class)
         .map(placesDTOMapper::toNearByPlaceInfoDTO);
   }
-  
+
   @Override
   public Mono<PlaceInfoDTO> getPlaceInfo(final String xid) {
-    return openTripMapWebClient.get().uri(
-            uriBuilder -> uriBuilder.path("en/places/xid/" + xid).build()
+    return kudaGoWebClient.get().uri(
+            uriBuilder -> uriBuilder.path("places/" + xid).build()
         ).retrieve()
         .onStatus(HttpStatusCode::isError, ClientResponse::createException)
-        .bodyToMono(OpenTripMapResponse.PlaceInfo.class)
+        .bodyToMono(KudaGoResponse.Details.class)
         .map(placesDTOMapper::toPlaceInfoDTO);
   }
-    /*
-    /{lang}/places/xid/{xid}
-    * */
 }

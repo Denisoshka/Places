@@ -9,9 +9,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public final class PlaceDTO {
-  private Double lat;
-  private Double lng;
+public class LocationInfoDTO {
+  private String id;
   private String name;
+  private String shortName;
   private String address;
+  private String description;
+  private String[] tags;
+  private String[] images;
+  private boolean isClosed;
+  private double lat;
+  private double lon;
 }

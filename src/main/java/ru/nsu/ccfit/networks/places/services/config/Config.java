@@ -14,14 +14,20 @@ public class Config {
   }
   
   @Bean
+  public WebClient kudaGoWebClient(WebClient.Builder builder) {
+      return builder
+          .baseUrl("https://kudago.com/public-api/v1.4").build();
+  }
+  
+  @Bean
   WebClient openweatherWebClient(WebClient.Builder builder) {
     return builder
         .baseUrl("https://api.openweathermap.org/data/2.5/weather")
         .build();
   }
   
-  @Bean
+  /*@Bean
   public WebClient openTripMapWebClient(WebClient.Builder builder) {
     return builder.baseUrl("https://api.opentripmap.com/0.1").build();
-  }
+  }*/
 }

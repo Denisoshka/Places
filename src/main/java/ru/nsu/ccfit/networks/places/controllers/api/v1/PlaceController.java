@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
-import ru.nsu.ccfit.networks.places.places.NearByPlaceInfoDTO;
-import ru.nsu.ccfit.networks.places.places.PlaceDTO;
+import ru.nsu.ccfit.networks.places.places.LocationInfoDTO;
+import ru.nsu.ccfit.networks.places.places.LocationDTO;
 import ru.nsu.ccfit.networks.places.places.PlaceInfoDTO;
 import ru.nsu.ccfit.networks.places.services.AbstractPlaceService;
 
@@ -25,19 +25,19 @@ public final class PlaceController {
   }
   
   @GetMapping("searchPlace")
-  public Mono<List<PlaceDTO>> getPlaces(
+  public Mono<List<LocationDTO>> getPlaces(
       @RequestParam(name = "place") final String q
   ) {
     return placeService.getPlacesByName(q);
   }
   
-  @GetMapping("populatedPlaces")
-  public Mono<List<NearByPlaceInfoDTO>> getPopulatedPlaces(
+  @GetMapping("populatedPlacesInRadius")
+  public Mono<List<LocationInfoDTO>> getPopulatedPlaces(
       @RequestParam(name = "lat") final double latitude,
       @RequestParam(name = "lan") final double longitude,
       @RequestParam(name = "r") final int radius
   ) {
-    return placeService.getPlacesByCords(latitude, longitude, radius);
+    return placeService.getPlacesInRadius(latitude, longitude, radius);
   }
   
   @GetMapping("placeInfo")

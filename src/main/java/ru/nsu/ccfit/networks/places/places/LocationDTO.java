@@ -9,12 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class NearByPlaceInfoDTO {
+public final class LocationDTO {
+  private Double lat;
+  private Double lng;
   private String name;
-  private String xid;
-  private String[] kinds;
-  private String wikidata;
-  private int dist;
-  private double lat;
-  private double lon;
+  private String address;
 }
