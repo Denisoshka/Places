@@ -24,14 +24,14 @@ public final class PlaceController {
     this.placeService = placeService;
   }
   
-  @GetMapping("searchPlace")
+  @GetMapping("search_location")
   public Mono<List<LocationDTO>> getPlaces(
       @RequestParam(name = "place") final String q
   ) {
     return placeService.getPlacesByName(q);
   }
   
-  @GetMapping("populatedPlacesInRadius")
+  @GetMapping("populated_places")
   public Mono<List<LocationInfoDTO>> getPopulatedPlaces(
       @RequestParam(name = "lat") final double latitude,
       @RequestParam(name = "lan") final double longitude,
@@ -40,7 +40,7 @@ public final class PlaceController {
     return placeService.getPlacesInRadius(latitude, longitude, radius);
   }
   
-  @GetMapping("placeInfo")
+  @GetMapping("place_info")
   public Mono<PlaceInfoDTO> getPlaceInfo(
       @RequestParam(name = "xid") final String xid
   ) {
