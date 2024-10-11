@@ -25,4 +25,6 @@ export interface PlaceInfoDTO {
   address: string;
   tags: string[];
   images: string[];
+  lat: number;
+  lon: number;
 }
