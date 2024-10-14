@@ -2,7 +2,9 @@ package ru.nsu.ccfit.networks.places.services.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.http.client.HttpClient;
 
 @Configuration
 public class Config {
@@ -15,8 +17,12 @@ public class Config {
   
   @Bean
   public WebClient kudaGoWebClient(WebClient.Builder builder) {
-      return builder
-          .baseUrl("https://kudago.com/public-api/v1.4").build();
+    return builder
+        .baseUrl("https://kudago.com/public-api/v1.4").clientConnector(
+            new ReactorClientHttpConnector(
+                HttpClient.create().followRedirect(true)
+            )
+        ).build();
   }
   
   @Bean

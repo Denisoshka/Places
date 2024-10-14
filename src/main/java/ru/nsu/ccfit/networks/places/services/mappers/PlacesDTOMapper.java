@@ -32,11 +32,11 @@ public interface PlacesDTOMapper {
   LocationDTO toPlaceDTO(
       final GraphhopperGeocodingResponse.HittedLocation graphhopperGeocodingEndpoint
   );
-
+  
   List<LocationDTO> toListPlaceDTO(
       final List<GraphhopperGeocodingResponse.HittedLocation> hitLocations
   );
-
+  
   @Mapping(target = "lat", source = "coords.lat")
   @Mapping(target = "lon", source = "coords.lon")
   @Mapping(target = "name", source = "title")
@@ -46,11 +46,11 @@ public interface PlacesDTOMapper {
   LocationInfoDTO toNearByPlaceInfoDTO(
       final KudaGoResponse.Radius.Place response
   );
-
+  
   List<LocationInfoDTO> toNearByPlaceInfoDTO(
       final KudaGoResponse.Radius.Place[] response
   );
-
+  
   @Mapping(target = "name", source = "title")
   @Mapping(target = "shortName", source = "shortTitle")
   @Mapping(target = "description", source = "bodyText")
@@ -59,6 +59,6 @@ public interface PlacesDTOMapper {
   @Mapping(target = "images", source = "images",
       qualifiedByName = {"MappersUtil", "getDetailsImages"})
   @Mapping(target = "phone", source = "phone",
-      qualifiedByName ={"MappersUtil", "getPhones"})
+      qualifiedByName = {"MappersUtil", "getPhones"})
   PlaceInfoDTO toPlaceInfoDTO(final KudaGoResponse.Details details);
 }

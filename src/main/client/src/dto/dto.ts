@@ -19,12 +19,15 @@ export interface LocationInfoDTO {
 }
 
 export interface PlaceInfoDTO {
-  id: string;
   name: string;
+  shortName: string;
+  shortDescription: string;
   description: string;
   address: string;
-  tags: string[];
+  url: string;
+  phone: string[];
   images: string[];
-  lat: number;
-  lon: number;
+  categories: string[];
+  tags: string[];
+  isClosed: boolean;
 }

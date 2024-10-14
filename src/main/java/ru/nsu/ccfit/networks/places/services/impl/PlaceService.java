@@ -71,21 +71,21 @@ public class PlaceService implements AbstractPlaceService {
   ) {
     return kudaGoWebClient.get().uri(
             uriBuilder -> uriBuilder
-                .path("places/")
+                .path("/places/")
                 .queryParam("radius", radius)
                 .queryParam("lon", lon)
                 .queryParam("lat", lat)
                 .build()
         ).retrieve()
         .onStatus(HttpStatusCode::isError, ClientResponse::createException)
-        .bodyToMono(KudaGoResponse.Radius.Place[].class)
-        .map(placesDTOMapper::toNearByPlaceInfoDTO);
+        .bodyToMono(KudaGoResponse.Radius.class)
+        .map(val -> placesDTOMapper.toNearByPlaceInfoDTO(val.getResults()));
   }
 
   @Override
   public Mono<PlaceInfoDTO> getPlaceInfo(final String xid) {
     return kudaGoWebClient.get().uri(
-            uriBuilder -> uriBuilder.path("places/" + xid).build()
+            uriBuilder -> uriBuilder.path("/places/" + xid).build()
         ).retrieve()
         .onStatus(HttpStatusCode::isError, ClientResponse::createException)
         .bodyToMono(KudaGoResponse.Details.class)

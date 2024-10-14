@@ -1,10 +1,12 @@
 package ru.nsu.ccfit.networks.places.services.mappers.utils;
 
 import org.mapstruct.Named;
+import org.springframework.stereotype.Component;
 import ru.nsu.ccfit.networks.places.services.response.GraphhopperGeocodingResponse;
 import ru.nsu.ccfit.networks.places.services.response.KudaGoResponse;
 
 @Named("MappersUtil")
+@Component
 public class MappersUtil {
   @Named("buildAddress")
   public static String buildAddress(GraphhopperGeocodingResponse.HittedLocation source) {
@@ -42,6 +44,9 @@ public class MappersUtil {
 
   @Named("getRadiusPlaceImages")
   public String[] getRadiusPlaceImages(KudaGoResponse.Radius.Place.Image[] images) {
+    if (images == null){
+      return new String[0];
+    }
     var ret = new String[images.length];
     for (int i = 0; i < images.length; i++) {
       ret[i] = images[i].getImage();

@@ -1,5 +1,6 @@
 package ru.nsu.ccfit.networks.places.services.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class KudaGoResponse {
       private String address;
       private String description;
       private Image[] images;
+//      @JsonProperty("is_closed")
       private boolean isClosed;
       private String[] tags;
       private Coords coords;
@@ -57,7 +59,6 @@ public class KudaGoResponse {
         private String name;
         private String link;
       }
-
     }
   }
 
