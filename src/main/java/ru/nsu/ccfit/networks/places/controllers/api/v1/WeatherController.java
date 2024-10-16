@@ -20,7 +20,7 @@ public class WeatherController {
     this.weatherService = weatherService;
   }
   
-  @GetMapping("get_weather_in_point")
+  @GetMapping("get_weather")
   public Mono<WeatherDTO> getWeather(
       @RequestParam(name = "lat") final double lat,
       @RequestParam(name = "lon") final double lng

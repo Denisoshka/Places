@@ -1,7 +1,12 @@
 import {useState} from 'react'
 import {ResultsGroup, SearchElement} from "./components/SearchGroup.tsx";
-import {LocationDTO, LocationInfoDTO, PlaceInfoDTO} from "./dto/dto.ts";
-import {PlacesApiV1Url} from "./components/Consts.ts";
+import {
+  LocationDTO,
+  LocationInfoDTO,
+  PlaceInfoDTO,
+  WeatherDTO
+} from "./dto/dto.ts";
+import {PlacesApiV1Url, WeatherApiV1Url} from "./components/Consts.ts";
 import axios, {AxiosError} from "axios";
 import {DetailsWindow} from "./components/DetailsWIndow.tsx";
 
@@ -87,6 +92,31 @@ const FetchPlaceInfo = async ({id}: LocationInfoDTO): Promise<PlaceInfoDTO> => {
   }
 }
 
+/**
+ * @returns {Promise<PlaceInfoDTO[]>}
+ * @throws {CustomError}
+ * @param lat
+ * @param lng
+ */
+const FetchWeatherInfo = async (lat: number, lng: number): Promise<WeatherDTO> => {
+  try {
+    const response = await axios.get<WeatherDTO>(
+      `${WeatherApiV1Url}/get_weather?lat=${lat}&lon=${lng}`
+    );
+    console.info(response.data);
+    return response.data;
+  } catch (error: any) {
+    if (error instanceof AxiosError) {
+      if (!error.response) {
+        throw new CustomError(`FetchPlaceInfo: network error or server is not reachable ${error}`)
+      } else {
+        throw new CustomError(`FetchPlaceInfo: network error status: ${error.status}`)
+      }
+    }
+    throw new CustomError(`FetchPlaceInfo: error ${error}`)
+  }
+}
+
 const App = () => {
   const [locations, setLocations] = useState<LocationDTO[] | null>(null);
   const [place, setPlace] = useState<PlaceInfoDTO | null>(null)
@@ -110,6 +140,7 @@ const App = () => {
                           } catch (error: any) {
                           }
                         }}
+                        FetchWeatherInfo={FetchWeatherInfo}
           />
         </div>
         <DetailsWindow placeInfo={place}/>

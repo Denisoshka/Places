@@ -24,8 +24,7 @@ repositories {
 }
 
 dependencies {
-    val s = "spring-boot-starter-web"
-    implementation("org.springframework.boot:$s")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 //    implementation("org.springframework.boot:spring-boot-starter-logging")
 

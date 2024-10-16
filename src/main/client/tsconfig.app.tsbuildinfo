@@ -1,1 +1,1 @@
-{"root":["./src/App.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/Consts.ts","./src/components/DetailsWIndow.tsx","./src/components/SearchGroup.tsx","./src/dto/dto.ts"],"version":"5.6.3"}
+{"root":["./src/App.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/Consts.ts","./src/components/DetailsWIndow.tsx","./src/components/SearchGroup.tsx","./src/components/WeatherComponent.tsx","./src/dto/dto.ts"],"version":"5.6.3"}
